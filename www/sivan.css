@@ -1,0 +1,97 @@
+.circular {
+  width: 120px;
+	height: 120px;
+  margin-top: 15px;
+  margin-left: 15px;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	}
+  
+.graph {
+  padding: 10px;
+}
+  
+.div1 {
+  margin:30px;
+	padding:30px;
+	background: #E6E6E6;
+	}  
+
+
+.color {
+padding: 10px;
+margin: 10px;
+color: #DC1765;
+}
+  
+  
+.bio {
+  padding: 20px;
+}
+  
+
+#UserText{
+  width: 100%;
+  height: 350px;
+  vertical-align: top;
+  margin-top: 30px;
+}
+
+.smallicon{
+  width: 20px;
+  height: 20px;
+  display: block;
+  margin-top: 40px;
+}
+
+
+
+.cols1 input{
+  width: 100%;
+  height: 50px;
+}
+
+.cols1 button{
+  margin-top: 60px;
+  
+}
+
+.cols1 label{
+  padding-right: 60px;
+  width: 100%;
+}
+
+#about{
+  padding: 20px;
+}
+
+.Sentiment{
+  font-size: 50px;
+}
+
+.buttonleft{
+  margin-top: 30px;
+  
+}
+
+/*.button{
+#  margin-left: 30px;
+#  margin-top: 30px;
+}*/
+
+.table{
+  color: #DB1865;
+  border: 1px solid black;
+  text-align: center;
+  background-color: white;  
+}
+
+#Add, #Delete #Compute {
+  margin-right: 5px;
+}
+
+.shiny-output-error {
+color: #DB1865;
+white-space: pre-wrap;
+}
