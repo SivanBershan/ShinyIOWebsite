@@ -120,8 +120,8 @@ shinyServer(function(input, output, session) {
 
   
   observe({
-    if(input$Create>0){
-      #updateTabsetPanel(session, "PayR_Steps", selected = "Transactionpanel")
+    if(input$Create>1){
+      updateTabsetPanel(session, "PayR_Steps", selected = "Transactionpanel")
     }
   })
  
@@ -206,8 +206,8 @@ shinyServer(function(input, output, session) {
   })
  
   observe({
-    if (input$Compute > 0) {
-      #updateTabsetPanel(session, "PayR_Steps", selected = "Results")
+    if (input$Compute > 1) {
+      updateTabsetPanel(session, "PayR_Steps", selected = "Results")
     }
   })
   
