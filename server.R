@@ -121,7 +121,7 @@ shinyServer(function(input, output, session) {
   
   observe({
     if(input$Create>0){
-      updateTabsetPanel(session, "PayR_Steps", selected = "Transactionpanel")
+      #updateTabsetPanel(session, "PayR_Steps", selected = "Transactionpanel")
     }
   })
  
@@ -207,7 +207,7 @@ shinyServer(function(input, output, session) {
  
   observe({
     if (input$Compute > 0) {
-      updateTabsetPanel(session, "PayR_Steps", selected = "Results")
+      #updateTabsetPanel(session, "PayR_Steps", selected = "Results")
     }
   })
   
@@ -312,11 +312,16 @@ output$Logic =  renderDataTable({
   
 simpleGraph = renderPlot({
   df.g <- graph.data.frame(d = ResultTable(), directed = TRUE)
-  return(plot(df.g, edge.color="#DB1865", edge.label = round(ResultTable()$Sum), 
-              vertex.color = "#A3A3A3", vertex.frame.color = "#DB1865", vertex.size = 70, 
-              vertex.label.cex = 1.5, vertex.label.color = "black",
+  return(plot(df.g, edge.color="#DB1865",
+              edge.label = paste0("            ", round(ResultTable()$Sum)), 
+              vertex.frame.color = "white",
+              vertex.color = "#DB1865",
+              vertex.size = 50, 
+              vertex.label.cex = 1.5,
+              vertex.label.color = "black",
               edge.label.cex = 1.5, 
-              edge.arrow.size=0.5, edge.label.color="#DB1865"))
+              edge.arrow.size=0.5,
+              edge.label.color="black"))
 })
 
 d3Graph = output$PaymentPlot = renderForceNetwork({

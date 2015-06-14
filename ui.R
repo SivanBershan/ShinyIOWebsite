@@ -37,8 +37,25 @@ buildTabAboutMe = function() {
                                                          )))
 }
 
+click_create = function() {
+  singleton(tags$head(HTML(
+'
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // disable download at startup. data_file is the id of the downloadButton
+      setTimeout( function() {
+          $("#Create").click();
+          setTimeout(function() { $("#Compute").click();  }, 100)},
+        200 );
+    })
+  </script>
+'
+  )))
+}
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(theme = shinytheme("cosmo"),
+                  click_create(),
                   tags$head(
                     tags$link(rel = "stylesheet", type = "text/css", href = "sivan.css")
                   ),
