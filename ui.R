@@ -1,8 +1,41 @@
 library(shiny)
-library(RAmazonS3)
 library(shinythemes)
 library(networkD3)
       
+buildTabAboutMe = function() {
+	tabPanel("About Me", class = "div1",
+						fluidRow(column(3, 
+                                    fluidRow(img(src = "sivan_profile.jpg", class = "circular"))),
+                                column(7,h3("- about me - ", class = "bio"))),
+                                
+                        fluidRow(column(9, offset = 3, p("I'm a data analyst for user experience, marketing 
+                                                         and operations data. I like to play with new and known technologies. 
+                                                         My every-day tools of choice are MySQL and R. I also work with Excel, Tableau 
+                                                         & Weka."),
+                                                       p("I collaborate with small businesses to integrate feasible and low-cost
+                                                         data solutions. From data storage over frequent reporting to dashboarding, I offer end-to-end solutions
+                                                         to enhance customer service, marketing effectiveness, and conversion rate."))),
+                      fluidRow(column(3,
+                                      img(src = "membership_icon.png", class = "circular")), 
+                               column(7, h3("- commitments -", class = "bio"))),
+                      fluidRow(column(9, offset = 3, p("I'm an active member of the Bay Area UseR Group and attend the monthly meetings regularly.
+                                                        R is an open source statistics and programming language, supported by a large community with libraries and 
+                                                        add-ons. 
+                                                        Working with R allows me to stay within one framework when scripting, exploring, 
+                                                        performing advanced analytics, and dashboarding."),
+                                                     p("In my free time I build electronic gadgets."),
+                                                     p("My current project is a wifi connected barrel smoker that I built 
+                                                         from scratch with two friends. We built it as an enormous Pretzel oven to serve
+                                                         fresh Pretzels every morning on Burning Man 2014."),
+                                                     p("Now we are transforming the Pretzel Barrel into a wifi controlled Barrel Smoker with an external 
+                                                        smoke box and lots of sensors to measure and control all kinds of temperatures and air intake."))),
+                      fluidRow(column(3,
+                                      img(src = "contact_icon.png", class = "circular")), 
+                               column(7, h3("- contact -", class = "bio"))),
+                      fluidRow(column(9, offset = 3, p("For suggestions or services, please text or call via Google Voice:"), 
+                                                         p("415.868.5846") 
+                                                         )))
+}
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(theme = shinytheme("cosmo"),
@@ -82,7 +115,8 @@ shinyUI(fluidPage(theme = shinytheme("cosmo"),
                                                        dataTableOutput("Logic"))),
                                             fluidRow(class = "div1", 
                                                 column(12, class = "graph", 
-                                                       forceNetworkOutput("PaymentPlot")
+                                                       #forceNetworkOutput("PaymentPlot")
+                                                       plotOutput("PaymentPlot")
                                                        )) 
                                             ), 
                                   tabPanel("About PayR", class = "div1", 
@@ -146,39 +180,7 @@ shinyUI(fluidPage(theme = shinytheme("cosmo"),
  #######################################################
  ##################   AboutMe  #########################
  #######################################################
- 
-             tabPanel("About Me", class = "div1", 
-                       fluidRow(column(3, 
-                                    fluidRow(img(src = "sivan_profile.jpg", class = "circular"))),
-                                column(7,h3("- about me - ", class = "bio"))),
-                                
-                        fluidRow(column(9, offset = 3, p("I'm a data analyst for user experience, marketing 
-                                                         and operations data. I like to play with new and known technologies. 
-                                                         My every-day tools of choice are MySQL and R. I also work with Excel, Tableau 
-                                                         & Weka."),
-                                                       p("I collaborate with small businesses to integrate feasible and low-cost
-                                                         data solutions. From data storage over frequent reporting to dashboarding, I offer end-to-end solutions
-                                                         to enhance customer service, marketing effectiveness, and conversion rate."))),
-                      fluidRow(column(3,
-                                      img(src = "membership_icon.png", class = "circular")), 
-                               column(7, h3("- commitments -", class = "bio"))),
-                      fluidRow(column(9, offset = 3, p("I'm an active member of the Bay Area UseR Group and attend the monthly meetings regularly.
-                                                        R is an open source statistics and programming language, supported by a large community with libraries and 
-                                                        add-ons. 
-                                                        Working with R allows me to stay within one framework when scripting, exploring, 
-                                                        performing advanced analytics, and dashboarding."),
-                                                     p("In my free time I build electronic gadgets."),
-                                                     p("My current project is a wifi connected barrel smoker that I built 
-                                                         from scratch with two friends. We built it as an enormous Pretzel oven to serve
-                                                         fresh Pretzels every morning on Burning Man 2014."),
-                                                     p("Now we are transforming the Pretzel Barrel into a wifi controlled Barrel Smoker with an external 
-                                                        smoke box and lots of sensors to measure and control all kinds of temperatures and air intake."))),
-                      fluidRow(column(3,
-                                      img(src = "contact_icon.png", class = "circular")), 
-                               column(7, h3("- contact -", class = "bio"))),
-                      fluidRow(column(9, offset = 3, p("For suggestions or services, please text or call via Google Voice:"), 
-                                                         p("415.868.5846") 
-                                                         ))))
+                buildTabAboutMe())
              ))
    
                       

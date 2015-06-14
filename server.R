@@ -1,5 +1,4 @@
 library(shiny)
-library(RAmazonS3)
 library(reshape)
 library(ggplot2)
 library(dplyr)
@@ -15,6 +14,8 @@ library(wordcloud)
 library(rvest)
 library(stringdist)
 library(networkD3)
+
+NUM_MONTE_CARLO = 100
 
 PrepText = function(text){
   dict = read.csv("inquireraugmented.csv")
@@ -96,38 +97,46 @@ shinyServer(function(input, output, session) {
   
   
  
-  output$ui <- renderUI({
+
+  created = reactive({
     if(input$Create > 0){
-    if (is.null(isolate(input$TMember))){
-      return() 
+      if (is.null(isolate(input$TMember))){
+        return() 
+      }
+      TMembers <<- tolower(sort(unlist(strsplit(isolate(input$TMember), split = "\\s*,\\s*"))))
     }
-    TMembers <<- tolower(sort(unlist(strsplit(isolate(input$TMember), split = "\\s*,\\s*"))))
-    choices = c()
-    
-   
-    #print(TMembers)
-    #_dy stands for dynamic
-    checkboxGroup = checkboxGroupInput("TMembers_dy", "Trip Members",
-                     choices = TMembers, selected = TMembers)
+    return(input$Create)
+  })
+
+  output$ui <- renderUI({
+    if(created()) {
+      checkboxGroup = checkboxGroupInput(
+        "TMembers_dy",
+        "Trip Members",
+        choices = TMembers,
+        selected = TMembers)
     }
-    })
+  })
+
   
   observe({
     if(input$Create>0){
       updateTabsetPanel(session, "PayR_Steps", selected = "Transactionpanel")
     }
-    })
+  })
  
   Members = character(0)
+  
   observe({
-          if (!is.null(input$TMembers_dy)){
-          print(Members)
-          Members <<- paste(tolower(input$TMembers_dy), collapse= ",")
-          
-          }
-    
+    if (!is.null(input$TMembers_dy)){
+      print(Members)
+      Members <<- paste(tolower(input$TMembers_dy), collapse= ",")
+    }
     print(unique(Members))
   })
+
+
+
   
   #observe({
    #   if(input$CMember > 0){
@@ -138,19 +147,21 @@ shinyServer(function(input, output, session) {
   
  
   
-  overview = data.frame(Project = c("Easter Camping 2015"), Members = c("joe, simon, sivan"), 
-                       SpentFor = c("Firewood"), Amount = c(50), Payer = c("joe"))
+  overview = data.frame(
+    Project = rep("Easter Camping 2015", 4),
+    Members = c("joe,simon,sivan","joe,sivan","joe,simon","joe,simon,sivan"), 
+    SpentFor = c("Firewood", "Beer", "Powerbait", "Groceries"), Amount = c(50, 30, 10, 100), Payer = c("joe", "joe", "sivan", "simon"))
   CloseTo = data.frame(Group = character(0))
   
   added = reactive({
-      
-      if(input$Add > -1) {  
+      if(input$Add > 0) {  
         print("pups")
         validate(
           need(grepl("^\\d+$", isolate(input$Amount)), "Please enter a number")
         )
         sumPary = overview
-        
+        print(overview)
+        print(TMembers)
         sumPary = rbind(sumPary, data.frame(
           Project = as.character(isolate(input$Project)), 
           Members = as.character(isolate(Members)),
@@ -161,6 +172,7 @@ shinyServer(function(input, output, session) {
         
         overview <<- sumPary
         #names(overview) = c("Project", "Members", "SpentFor", "Amount", "Paid By")
+        print(overview)
         overview
       }
       
@@ -188,16 +200,16 @@ shinyServer(function(input, output, session) {
   #})
   
   output$sumPary = renderDataTable({
-    if(added()  | deleted()){ #| resetted()){
+    if(added()  | deleted() | created()){ #| resetted()){
       overview
     }
   })
  
   observe({
-  if (input$Compute > 0) {
-       updateTabsetPanel(session, "PayR_Steps", selected = "Results")
-  }
-    })
+    if (input$Compute > 0) {
+      updateTabsetPanel(session, "PayR_Steps", selected = "Results")
+    }
+  })
   
   
 ResultTable = reactive({
@@ -244,7 +256,7 @@ ResultTable = reactive({
     counters = c()
     scores = c()
     allpayments = list()
-    for (i in 1:1000){
+    for (i in 1:NUM_MONTE_CARLO){
       #print(Payments)
       Payments$Pays = ifelse (Payments$PaysGets > 0, Payments$PaysGets, 0)
       Payments$Gets = ifelse(Payments$PaysGets < 0, Payments$PaysGets, 0)
@@ -298,16 +310,16 @@ output$Logic =  renderDataTable({
 
 
   
-#output$PaymentPlot = renderPlot({
-#  df.g <- graph.data.frame(d = ResultTable(), directed = TRUE)
-#  return(plot(df.g, edge.color="#DB1865", edge.label = round(ResultTable()$Sum), 
-#              vertex.color = "#A3A3A3", vertex.frame.color = "#DB1865", vertex.size = 70, 
-#              vertex.label.cex = 1.5, vertex.label.color = "black",
-#              edge.label.cex = 1.5, 
-#              edge.arrow.size=0.5, edge.label.color="#DB1865"))
-#})
+simpleGraph = renderPlot({
+  df.g <- graph.data.frame(d = ResultTable(), directed = TRUE)
+  return(plot(df.g, edge.color="#DB1865", edge.label = round(ResultTable()$Sum), 
+              vertex.color = "#A3A3A3", vertex.frame.color = "#DB1865", vertex.size = 70, 
+              vertex.label.cex = 1.5, vertex.label.color = "black",
+              edge.label.cex = 1.5, 
+              edge.arrow.size=0.5, edge.label.color="#DB1865"))
+})
 
-output$PaymentPlot = renderForceNetwork({
+d3Graph = output$PaymentPlot = renderForceNetwork({
   Nodes = data.frame(ID = 0:(length(TMembers)-1), TMembers)
   LinksName = data.frame(SourceName = ResultTable()$Payer, TargetName = ResultTable()$Receiver, Value = round(as.numeric(ResultTable()$Sum)))
   Links = inner_join(LinksName, Nodes, by= c("SourceName" = "TMembers"))
@@ -319,10 +331,13 @@ output$PaymentPlot = renderForceNetwork({
   Links$SourceName = NULL
   Links$TargetName = NULL
   forceNetwork(Links = Links, Nodes = Nodes, Source = "Source",
-               Target = "Target", Value = "Value", NodeID = "TMembers", Group = "TMembers")
+               Target = "Target", Value = "Value", NodeID = "TMembers", Group = "TMembers",
+               linkDistance = 150,
+               linkWidth = JS("function(d) { return (d.value/10); }"),
+               legend=T, opacity = 0.5)
 })
 
-
+output$PaymentPlot = simpleGraph
 
 output$CloseTo = renderPrint({
   if(input$AddGroup > 0){
