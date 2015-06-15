@@ -4,37 +4,32 @@ library(networkD3)
       
 buildTabAboutMe = function() {
 	tabPanel("About Me", class = "div1",
-						fluidRow(column(3, 
-                                    fluidRow(img(src = "sivan_profile.jpg", class = "circular"))),
-                                column(7,h3("- about me - ", class = "bio"))),
+						fluidRow( 
+                      fluidRow(column(3, img(src = "sivan_profile.jpg", class = "circular")),
+                               column(7, h3("- about me - ", class = "bio"))),
                                 
-                        fluidRow(column(9, offset = 3, p("I'm a data analyst for user experience, marketing 
-                                                         and operations data. I like to play with new and known technologies. 
-                                                         My every-day tools of choice are MySQL and R. I also work with Excel, Tableau 
-                                                         & Weka."),
-                                                       p("I collaborate with small businesses to integrate feasible and low-cost
-                                                         data solutions. From data storage over frequent reporting to dashboarding, I offer end-to-end solutions
-                                                         to enhance customer service, marketing effectiveness, and conversion rate."))),
-                      fluidRow(column(3,
-                                      img(src = "membership_icon.png", class = "circular")), 
+                      fluidRow(column(9, offset = 2, p("I'm a data analyst working mainly with operational data and user data. I like to play with new and known technologies. 
+                                                          My tools of choice are R and SQL. I also work with Excel, Tableau & SAS."),
+                                                       p("I collaborate with small and midsized businesses to integrate feasible and low-cost
+                                                         data solutions from data storage to frequent reporting to dashboarding."))),
+                      fluidRow(column(3,img(src = "membership_icon.png", class = "circular")), 
                                column(7, h3("- commitments -", class = "bio"))),
-                      fluidRow(column(9, offset = 3, p("I'm an active member of the Bay Area UseR Group and attend the monthly meetings regularly.
+                      fluidRow(column(9, offset = 2, p("I'm an active member of the Bay Area UseR Group and attend the monthly meetings.
                                                         R is an open source statistics and programming language, supported by a large community with libraries and 
                                                         add-ons. 
                                                         Working with R allows me to stay within one framework when scripting, exploring, 
                                                         performing advanced analytics, and dashboarding."),
                                                      p("In my free time I build electronic gadgets."),
-                                                     p("My current project is a wifi connected barrel smoker that I built 
-                                                         from scratch with two friends. We built it as an enormous Pretzel oven to serve
-                                                         fresh Pretzels every morning on Burning Man 2014."),
-                                                     p("Now we are transforming the Pretzel Barrel into a wifi controlled Barrel Smoker with an external 
-                                                        smoke box and lots of sensors to measure and control all kinds of temperatures and air intake."))),
+                                                     p("My current project is a wifi connected barrel smoker that I built from scratch together with two friends."),
+                                                     p("Originally we built the barrel oven to bake Bavarian Pretzels. Currently, we are 
+                                                        transforming the Pretzel Barrel into a wifi controlled Barrel Smoker with an external 
+                                                        smoke box and lots of sensors to measure and control temperature and air intake remotely."))),
                       fluidRow(column(3,
                                       img(src = "contact_icon.png", class = "circular")), 
                                column(7, h3("- contact -", class = "bio"))),
-                      fluidRow(column(9, offset = 3, p("For suggestions or services, please text or call via Google Voice:"), 
+                      fluidRow(column(9, offset = 2, p("For suggestions or services, please text or call via Google Voice:"), 
                                                          p("415.868.5846") 
-                                                         )))
+                                                         ))))
 }
 
 click_create = function() {
@@ -139,20 +134,21 @@ shinyUI(fluidPage(theme = shinytheme("cosmo"),
                                   tabPanel("About PayR", class = "div1", 
                                           fluidRow(column(2, img(src = "PayR_logo.png", class = "circular")),
                                                    column(9, 
-                                                           p(id = "about", "Traveling in groups is fun. Typically some organize and prepay all expenses and afterwards the costs
-                                                            per person are added up for each individual. 
-                                                            Depending on the variety of activities this can be a fairly complex task. After having done several 
-                                                            of these calculations, I came up with PayR, a small app written in R
-                                                            to facilitate the process of balancing out traveling expenses."),  
+                                                           p(id = "about", "Traveling in groups is fun. Typically some organize and pay. Splitting the costs afterwards can be 
+                                                                   a complicated calculation, because not everyone participates in all activities. After I ran into this
+                                                                   issue several times, I came up with PayR, an app to facilitate the process of balancing out group expenses. 
+                                                                   "),  
                                                             p(id = "about", "PayR works in a few steps:"),
-                                                            tags$ul("1. It balances costs in all subgroups. The subgroups determine who participates in which costs."),  
-                                                            tags$ul("2. The category 'all' is balanced. This is for costs concerning the whole group as groceries."), 
-                                                            tags$ul("3. Groups of people that see each other daily or all use the same money tranfer technology can be added."),  
-                                                            tags$ul("4. From this information PayR computes 1000 different possiblities to make transactions."),  
-                                                            tags$ul("5. Solutions are scored according to the number of transaction needed and according to closeness of the 
-                                                                     people exchanging money. The solution with the least score wins and is provided. "), 
-                                                            p(id = "about", "The PayR solution provides the easiest solution to pay debts and at the same time 
-                                                            prefers the solution with the least number of transactions between people.")))))),
+                                                            tags$ul("1. First enter the trip name and all members."),  
+                                                            tags$ul("2. Enter all expenses, by whom they were paid and who participated in them."), 
+                                                            tags$ul("3. When you press the Compute Button PayR will run a Monte Carlo simulation of balancing out the
+                                                                        costs with the least possible number of transactions.")  
+                                                            #tags$ul("4. "),  
+                                                            #tags$ul("5. Solutions are scored according to the number of transaction needed and according to closeness of the 
+                                                            #         people exchanging money. The solution with the least score wins and is provided. "), 
+                                                            #p(id = "about", "PayR provides the easiest solution to pay debts and at the same time 
+                                                            #prefers the solution with the least number of transactions between people.")))
+                                                            ))),
  #######################################################
  ##################   StRaw   #########################
  #######################################################    
@@ -163,7 +159,7 @@ shinyUI(fluidPage(theme = shinytheme("cosmo"),
  ##################   AboutMe  #########################
  #######################################################
                 buildTabAboutMe())
-             ))
+             ))))
    
                       
 
