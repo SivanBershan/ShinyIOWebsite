@@ -16,7 +16,7 @@ library(stringdist)
 library(networkD3)
 
 NUM_MONTE_CARLO = 100
-
+if(FALSE){
 PrepText = function(text){
   dict = read.csv("inquireraugmented.csv")
   dictPos = subset(dict, dict$Positiv == "Positiv")
@@ -82,7 +82,7 @@ scrapews = function(website){
   html_text(names)
   
 }
-
+}
 ############################################################################################
 
                         #PayR source code
@@ -314,11 +314,11 @@ simpleGraph = renderPlot({
   df.g <- graph.data.frame(d = ResultTable(), directed = TRUE)
   return(plot(df.g, edge.color="#DB1865",
               edge.label = paste0("            ", round(ResultTable()$Sum)), 
-              vertex.frame.color = "white",
-              vertex.color = "#DB1865",
-              vertex.size = 50, 
+              vertex.frame.color = "#DB1865",
+              vertex.color = "#737376",
+              vertex.size = 55, 
               vertex.label.cex = 1.5,
-              vertex.label.color = "black",
+              vertex.label.color = "white",
               edge.label.cex = 1.5, 
               edge.arrow.size=0.5,
               edge.label.color="black"))
@@ -369,7 +369,7 @@ output$CloseTo = renderPrint({
 #    })
     
  
-
+if(FALSE){
 #############################################
  ###########   Mood - Scoring   ############
 #############################################
@@ -420,6 +420,6 @@ output$Sentiment = renderText({
     return(data$Sentiment[1]) 
   }
 })
-
+}
 
 })

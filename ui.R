@@ -64,7 +64,7 @@ shinyUI(fluidPage(theme = shinytheme("cosmo"),
 ##################   PayR   ###########################
 #######################################################
 
-   navbarPage("Sivan's Projects",
+   navbarPage("Sivan's website",
               tabPanel("PayR",  
                        tabsetPanel(id = "PayR_Steps",
                                      tabPanel(title = "Project", class = "div1",value="Projectpanel",
@@ -157,42 +157,7 @@ shinyUI(fluidPage(theme = shinytheme("cosmo"),
  ##################   StRaw   #########################
  #######################################################    
  
- 
-              tabPanel("StRaw", 
-                   tabsetPanel(id = "StRaw_Steps",
-                       tabPanel(title = "StRaw",
-                            fluidRow( class = "div1", 
-                                    column(6, 
-                                         fluidRow(column(12, class = "cols1", 
-                                                         tags$textarea(id="UserText", "Paste your text:"))),
-                                         fluidRow(column(2, class="button", 
-                                                         actionButton("Analyze", "Analyze"))) 
-                                          
-                                                         
-                                       ),
-                                    column(6, class = "cols1",
-                                           fluidRow(column(12, plotOutput("WordCloud"))) 
-                                    )               
-                            ), 
-                            fluidRow(class = "div1",
-                                    column(6, class = "cols1", plotOutput("PosNegCount")), 
-                                    column(6, class = "Sentiment", p("Sentiment:")), 
-                                    column(6, p("Sentiment is the percentage of positive words minus the percentage
-                                                of negative words of the absolute number of recognized
-                                                positive and negative values in the text."),
-                                    column(6, class = "Sentiment", textOutput("Sentiment")))
-                                            
-                      )),
-                      
-                      tabPanel(title = "About StRaw", 
-                               fluidRow(class = "div1", column(2, offset= 1, img(src = "StRaw_icon.png", class = "icon")),
-                                        column(9, class = "cols1", p(id = "about","StRaw allows you to paste a text or a url into the textfield provided."), 
-                                                                 p(id = "about", "The content that is made available is transformed into a corpus and 
-                                                                 matched with the Harvard Inquirer Dictionary. As a result you will get 
-                                                                 a summary of the text, whether it is more positive or negative, whether
-                                                                 it is strongly opinionated and which words occur most often."),
-                                                                 p(id = "about", "The wordcloud function builds a word cloud out of the 50 most occuring words")))
-                  ))), 
+#c/p content of function here
  
  #######################################################
  ##################   AboutMe  #########################
